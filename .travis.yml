@@ -9,15 +9,14 @@ script:
   - docker run -e CI=true xtealer/react-test npm test
 
 after_success:
-  - docker build -t xtealer/multi-client ./client
-  - docker build -t xtealer/multi-nginx ./nginx
-  - docker build -t xtealer/multi-server ./server
-  - docker build -t xtealer/multi-worker ./worker
+  - docker build -t xtealer/multi-docker:client ./client
+  - docker build -t xtealer/multi-docker:nginx ./nginx
+  - docker build -t xtealer/multi-docker:server ./server
+  - docker build -t xtealer/multi-docker:worker ./worker
   # Login to docker cli
-  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push images to docker hub
-  docker push xtealer/multi-client
-  docker push xtealer/multi-nginx
-  docker push xtealer/multi-server
-  docker push xtealer/multi-worker
-
+  - docker push xtealer/multi-docker:client
+  - docker push xtealer/multi-docker:nginx
+  - docker push xtealer/multi-docker:server
+  - docker push xtealer/multi-docker:worker
