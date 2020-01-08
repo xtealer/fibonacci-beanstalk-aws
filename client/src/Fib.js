@@ -9,20 +9,28 @@ class Fib extends Component {
   };
 
   componentDidMount() {
-    this.fetchValues();
-    this.fetchIndexes();
+    try {
+      this.fetchValues();
+      this.fetchIndexes();
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
   async fetchValues() {
     const values = await axios.get('/api/values/current');
-    this.setState({ values: values.data });
+    if (values) {
+      this.setState({ values: values.data });
+    }
   }
 
   async fetchIndexes() {
     const seenIndexes = await axios.get('/api/values/all');
-    this.setState({
-      seenIndexes: seenIndexes.data
-    });
+    if (seenIndexes) {
+      this.setState({
+        seenIndexes: seenIndexes.data
+      });
+    }
   }
 
   handleSubmit = async event => {
@@ -35,18 +43,23 @@ class Fib extends Component {
   };
 
   renderSeenIndexes() {
-    return this.state.seenIndexes.map(({ number }) => number).join(', ');
+    if (this.state.seenIndexes) {
+      return this.state.seenIndexes.map(({ number }) => number).join(', ');
+    }
+    return;
   }
 
   renderValues() {
     const entries = [];
 
-    for (let key in this.state.values) {
-      entries.push(
-        <div key={key}>
-          For index {key} I calculated {this.state.values[key]}
-        </div>
-      );
+    if (this.state.values) {
+      for (let key in this.state.values) {
+        entries.push(
+          <div key={key}>
+            For index {key} I calculated {this.state.values[key]}
+          </div>
+        );
+      }
     }
 
     return entries;
