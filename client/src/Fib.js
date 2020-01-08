@@ -43,7 +43,7 @@ class Fib extends Component {
   };
 
   renderSeenIndexes() {
-    if (this.state.seenIndexes) {
+    if (this.state.seenIndexes.length) {
       return this.state.seenIndexes.map(({ number }) => number).join(', ');
     }
     return;
@@ -52,7 +52,7 @@ class Fib extends Component {
   renderValues() {
     const entries = [];
 
-    if (this.state.values) {
+    if (this.state.values.length) {
       for (let key in this.state.values) {
         entries.push(
           <div key={key}>
