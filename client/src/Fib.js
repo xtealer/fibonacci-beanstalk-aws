@@ -19,8 +19,7 @@ class Fib extends Component {
 
   async fetchValues() {
     const values = await axios.get('/api/values/current');
-    console.log(values.status === 200);
-    if (values.data) {
+    if (values.status === 200) {
       this.setState({ values: values.data });
     }
   }
