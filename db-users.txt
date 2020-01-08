@@ -1,0 +1,6 @@
+# postgres
+user: postgres
+password: dk2CRvt354y$Y*
+databaseName: fibvalues
+
+# elastic cache redis
