@@ -43,23 +43,18 @@ class Fib extends Component {
   };
 
   renderSeenIndexes() {
-    if (this.state.seenIndexes.length) {
-      return this.state.seenIndexes.map(({ number }) => number).join(', ');
-    }
-    return;
+    return this.state.seenIndexes.map(({ number }) => number).join(', ');
   }
 
   renderValues() {
     const entries = [];
 
-    if (this.state.values.length) {
-      for (let key in this.state.values) {
-        entries.push(
-          <div key={key}>
-            For index {key} I calculated {this.state.values[key]}
-          </div>
-        );
-      }
+    for (let key in this.state.values) {
+      entries.push(
+        <div key={key}>
+          For index {key} I calculated {this.state.values[key]}
+        </div>
+      );
     }
 
     return entries;
@@ -78,10 +73,10 @@ class Fib extends Component {
         </form>
 
         <h3>Indexes I have seen:</h3>
-        {this.renderSeenIndexes()}
+        {this.state.seenIndexes.length ? this.renderSeenIndexes : null}
 
         <h3>Calculated Values:</h3>
-        {this.renderValues()}
+        {this.state.values.length ? this.renderValues : null}
       </div>
     );
   }
