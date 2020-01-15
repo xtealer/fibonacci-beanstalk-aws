@@ -9,7 +9,7 @@ script:
   - docker run -e CI=true xtealer/react-test npm test
 
 after_success:
-  - docker build -t xtealer/multi-docker:client ./client
+  - docker build -t xtealer/multi-docker:client-v1.1 ./client
   - docker build -t xtealer/multi-docker:nginx ./nginx
   - docker build -t xtealer/multi-docker:server ./server
   - docker build -t xtealer/multi-docker:worker ./worker
