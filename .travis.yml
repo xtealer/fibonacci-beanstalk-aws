@@ -16,7 +16,7 @@ after_success:
   # Login to docker cli
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push images to docker hub
-  - docker push xtealer/multi-docker:client
+  - docker push xtealer/multi-docker:client-v1.1
   - docker push xtealer/multi-docker:nginx
   - docker push xtealer/multi-docker:server
   - docker push xtealer/multi-docker:worker
