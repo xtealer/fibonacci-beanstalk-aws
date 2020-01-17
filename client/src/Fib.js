@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const fibApi = axios.create({ baseURL: 'http://192.168.64.3' });
-
 const Fib = () => {
   const [seenIndexes, setSeenIndexes] = useState([]);
   const [values, setValues] = useState(null);
   const [index, setIndex] = useState('');
   const [loading, setLoading] = useState(true);
   const fetchValues = async () => {
-    const values = await fibApi.get('/api/values/current');
+    const values = await axios.get('/api/values/current');
     if (values.status === 200) {
       setValues(values.data);
     }
   };
   const fetchIndexes = async () => {
-    const seenIndexes = await fibApi.get('/api/values/all');
+    const seenIndexes = await axios.get('/api/values/all');
     if (seenIndexes.status === 200) {
       setSeenIndexes(seenIndexes.data);
     }
@@ -41,7 +39,7 @@ const Fib = () => {
     if (!loading) {
       setLoading(true);
     }
-    await fibApi.post('/api/values', {
+    await axios.post('/api/values', {
       index
     });
     setIndex('');
