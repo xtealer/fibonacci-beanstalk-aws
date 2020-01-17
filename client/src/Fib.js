@@ -1,48 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const fibApi = axios.create({ baseURL: 'http://192.168.64.3' });
+
 const Fib = () => {
   const [seenIndexes, setSeenIndexes] = useState([]);
   const [values, setValues] = useState(null);
   const [index, setIndex] = useState('');
   const [loading, setLoading] = useState(true);
   const fetchValues = async () => {
-    const values = await axios.get('/api/values/current');
+    const values = await fibApi.get('/api/values/current');
     if (values.status === 200) {
       setValues(values.data);
     }
   };
   const fetchIndexes = async () => {
-    const seenIndexes = await axios.get('/api/values/all');
+    const seenIndexes = await fibApi.get('/api/values/all');
     if (seenIndexes.status === 200) {
       setSeenIndexes(seenIndexes.data);
     }
   };
+  const getData = () => {
+    try {
+      fetchValues();
+      fetchIndexes();
+    } catch (err) {
+      console.log(err.message);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
     if (loading) {
-      try {
-        fetchValues();
-        fetchIndexes();
-      } catch (err) {
-        console.log(err.message);
-      }
-      setLoading(false);
+      getData();
     }
-  }, [index, seenIndexes, values, loading]);
+  });
 
   const handleSubmit = async event => {
     event.preventDefault();
     if (!loading) {
       setLoading(true);
     }
-    await axios.post('/api/values', {
+    await fibApi.post('/api/values', {
       index
     });
     setIndex('');
-    if (loading) {
-      setLoading(false);
-    }
+    getData();
   };
 
   const renderSeenIndexes = () => {
@@ -70,10 +73,10 @@ const Fib = () => {
       </form>
 
       <h3>Indexes I have seen:</h3>
-      {seenIndexes.length ? renderSeenIndexes() : null}
+      {!loading && seenIndexes.length ? renderSeenIndexes() : null}
 
       <h3>Calculated Values:</h3>
-      {values ? renderValues() : null}
+      {!loading && values ? renderValues() : null}
     </div>
   );
 };
